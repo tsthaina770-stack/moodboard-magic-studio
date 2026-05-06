@@ -32,7 +32,7 @@ function DashboardPage() {
   const { primary, loading: roleLoading } = useRole();
   const navigate = useNavigate();
   const [stats, setStats] = useState<Stats>({});
-  const [profile, setProfile] = useState<{ prenom?: string; nom?: string; entreprise?: string } | null>(null);
+  const [profile, setProfile] = useState<{ prenom: string | null; nom: string | null; entreprise: string | null } | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate({ to: "/auth" });
