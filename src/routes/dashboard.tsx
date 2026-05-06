@@ -118,7 +118,15 @@ function DashboardPage() {
       <main className="flex-1 max-w-7xl mx-auto px-6 py-12 w-full">
         {primary === "admin" && <AdminView stats={stats} />}
         {primary === "partenaire" && <PartenaireView stats={stats} />}
-        {(primary === "createur" || primary === "visiteur") && <CreateurView stats={stats} />}
+        {(primary === "createur" || primary === "visiteur") && (
+          <CreateurView
+            stats={stats}
+            recentLeads={recentLeads}
+            latestArticles={latestArticles}
+            topPartenaires={topPartenaires}
+            profileComplete={Boolean(profile?.prenom && profile?.nom && profile?.entreprise)}
+          />
+        )}
       </main>
 
       <SiteFooter />
