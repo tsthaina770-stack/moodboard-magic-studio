@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, LogIn, User as UserIcon } from "lucide-react";
 import { VinsalesLogo } from "./VinsalesLogo";
+import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
   { to: "/comparateur", label: "Comparateur" },
