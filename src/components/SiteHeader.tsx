@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, LogIn, User as UserIcon } from "lucide-react";
 import { VinsalesLogo } from "./VinsalesLogo";
+import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
   { to: "/comparateur", label: "Comparateur" },
@@ -20,6 +21,7 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
   const [scrolled, setScrolled] = useState(!transparentOnTop);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!transparentOnTop) {
@@ -93,6 +95,25 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
               <Phone size={15} style={{ color: isLight ? "#7EAEFF" : "#2F6BFF" }} />
               01 00 00 00 00
             </a>
+            {user ? (
+              <Link
+                to="/profil"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                style={{ color: isLight ? "#fff" : "#0B2A4A" }}
+              >
+                <UserIcon size={15} style={{ color: isLight ? "#7EAEFF" : "#2F6BFF" }} />
+                Mon espace
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                style={{ color: isLight ? "#fff" : "#0B2A4A" }}
+              >
+                <LogIn size={15} style={{ color: isLight ? "#7EAEFF" : "#2F6BFF" }} />
+                Connexion
+              </Link>
+            )}
             <Link
               to="/comparateur"
               className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
@@ -125,7 +146,14 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
                 {item.label}
               </Link>
             ))}
-            <div className="pt-3 border-t" style={{ borderColor: "var(--color-hairline)" }}>
+            <div className="pt-3 border-t space-y-2" style={{ borderColor: "var(--color-hairline)" }}>
+              <Link
+                to={user ? "/profil" : "/auth"}
+                className="block w-full text-center py-3 rounded-xl text-sm font-semibold border"
+                style={{ borderColor: "var(--color-hairline)", color: "#0B2A4A" }}
+              >
+                {user ? "Mon espace" : "Connexion"}
+              </Link>
               <Link
                 to="/comparateur"
                 className="block w-full text-center py-3 rounded-xl text-sm font-semibold text-white"

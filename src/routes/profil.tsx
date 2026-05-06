@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { User, Mail, Phone, Building2, Save, Check } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { User, Mail, Phone, Building2, Save, Check, LogOut, Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -15,21 +16,41 @@ export const Route = createFileRoute("/profil")({
 });
 
 function ProfilPage() {
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
   const [data, setData] = useState({
-    nom: "Dubois",
-    prenom: "Marie",
-    email: "marie@example.com",
-    telephone: "06 12 34 56 78",
-    societe: "Conseil RH SASU",
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    societe: "",
     statut: "SASU",
   });
+
+  useEffect(() => {
+    if (!loading && !user) navigate({ to: "/auth" });
+    if (user) setData((d) => ({ ...d, email: user.email ?? "" }));
+  }, [user, loading, navigate]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate({ to: "/" });
+  };
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin" style={{ color: "#2F6BFF" }} size={32} />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -53,12 +74,12 @@ function ProfilPage() {
           <aside className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 border border-hairline shadow-sm sticky top-24">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-2xl" style={{ backgroundColor: "#2F6BFF" }}>
-                  {data.prenom[0]}{data.nom[0]}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-2xl uppercase" style={{ backgroundColor: "#2F6BFF" }}>
+                  {(user.email ?? "?").slice(0, 2)}
                 </div>
-                <div>
-                  <p className="font-display font-bold text-primary">{data.prenom} {data.nom}</p>
-                  <p className="text-xs text-muted-foreground">{data.societe}</p>
+                <div className="min-w-0">
+                  <p className="font-display font-bold text-primary truncate">{user.email}</p>
+                  <p className="text-xs text-muted-foreground">Membre Vinsales</p>
                 </div>
               </div>
               <nav className="space-y-1 text-sm">
@@ -75,10 +96,19 @@ function ProfilPage() {
                   </button>
                 ))}
               </nav>
-              <div className="mt-6 pt-6 border-t border-hairline">
+              <div className="mt-6 pt-6 border-t border-hairline space-y-2">
                 <Link to="/comparateur" className="block w-full text-center py-2.5 rounded-xl text-sm font-semibold text-white" style={{ backgroundColor: "#18C29C" }}>
                   Nouveau comparatif
                 </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold border transition-colors hover:bg-muted"
+                  style={{ borderColor: "var(--color-hairline)", color: "#0B2A4A" }}
+                >
+                  <LogOut size={14} />
+                  Déconnexion
+                </button>
               </div>
             </div>
           </aside>
