@@ -36,10 +36,10 @@ function AuthPage() {
   // Redirect if already logged in
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) navigate({ to: "/profil" });
+      if (session) navigate({ to: "/dashboard" });
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate({ to: "/profil" });
+      if (session) navigate({ to: "/dashboard" });
     });
     return () => subscription.unsubscribe();
   }, [navigate]);
@@ -66,7 +66,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signUp({
           email: emailRes.data,
           password: pwRes.data,
-          options: { emailRedirectTo: `${window.location.origin}/profil` },
+          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
         });
         if (error) throw error;
         setSuccess("Compte créé. Vérifiez votre email pour confirmer votre adresse.");
