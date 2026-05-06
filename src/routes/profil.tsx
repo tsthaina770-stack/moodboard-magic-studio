@@ -74,12 +74,12 @@ function ProfilPage() {
           <aside className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 border border-hairline shadow-sm sticky top-24">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-2xl" style={{ backgroundColor: "#2F6BFF" }}>
-                  {data.prenom[0]}{data.nom[0]}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-2xl uppercase" style={{ backgroundColor: "#2F6BFF" }}>
+                  {(user.email ?? "?").slice(0, 2)}
                 </div>
-                <div>
-                  <p className="font-display font-bold text-primary">{data.prenom} {data.nom}</p>
-                  <p className="text-xs text-muted-foreground">{data.societe}</p>
+                <div className="min-w-0">
+                  <p className="font-display font-bold text-primary truncate">{user.email}</p>
+                  <p className="text-xs text-muted-foreground">Membre Vinsales</p>
                 </div>
               </div>
               <nav className="space-y-1 text-sm">
