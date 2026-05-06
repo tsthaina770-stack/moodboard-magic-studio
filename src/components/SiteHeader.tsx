@@ -146,7 +146,14 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
                 {item.label}
               </Link>
             ))}
-            <div className="pt-3 border-t" style={{ borderColor: "var(--color-hairline)" }}>
+            <div className="pt-3 border-t space-y-2" style={{ borderColor: "var(--color-hairline)" }}>
+              <Link
+                to={user ? "/profil" : "/auth"}
+                className="block w-full text-center py-3 rounded-xl text-sm font-semibold border"
+                style={{ borderColor: "var(--color-hairline)", color: "#0B2A4A" }}
+              >
+                {user ? "Mon espace" : "Connexion"}
+              </Link>
               <Link
                 to="/comparateur"
                 className="block w-full text-center py-3 rounded-xl text-sm font-semibold text-white"
