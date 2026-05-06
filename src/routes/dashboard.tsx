@@ -1,8 +1,10 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Loader2, Users, FileText, BarChart3, MousePointerClick, Building2,
   TrendingUp, Newspaper, Settings, LogOut, ShieldCheck, Briefcase,
+  ArrowRight, CheckCircle2, Clock, Sparkles, Target, Rocket, BookOpen,
+  Calendar, Activity, ChevronRight, Search, Bell,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
