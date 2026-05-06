@@ -36,6 +36,10 @@ function DashboardPage() {
   const [stats, setStats] = useState<Stats>({});
   const [profile, setProfile] = useState<{ prenom: string | null; nom: string | null; entreprise: string | null } | null>(null);
 
+  const [recentLeads, setRecentLeads] = useState<Array<{ id: string; sujet: string | null; statut: string; created_at: string }>>([]);
+  const [latestArticles, setLatestArticles] = useState<Array<{ id: string; titre: string; slug: string; extrait: string | null; temps_lecture_min: number | null }>>([]);
+  const [topPartenaires, setTopPartenaires] = useState<Array<{ id: string; nom: string; description: string | null; logo_url: string | null }>>([]);
+
   useEffect(() => {
     if (!authLoading && !user) navigate({ to: "/auth" });
   }, [user, authLoading, navigate]);
@@ -47,12 +51,14 @@ function DashboardPage() {
         .from("profiles").select("prenom,nom,entreprise").eq("user_id", user.id).maybeSingle();
       setProfile(prof);
 
-      // Stats par rôle (RLS filtre déjà)
-      const [leads, articles, partenaires, clics] = await Promise.all([
+      const [leads, articles, partenaires, clics, recent, art, parts] = await Promise.all([
         supabase.from("leads").select("*", { count: "exact", head: true }),
         supabase.from("articles").select("*", { count: "exact", head: true }),
         supabase.from("partenaires").select("*", { count: "exact", head: true }),
         supabase.from("clics_partenaires").select("*", { count: "exact", head: true }),
+        supabase.from("leads").select("id,sujet,statut,created_at").order("created_at", { ascending: false }).limit(5),
+        supabase.from("articles").select("id,titre,slug,extrait,temps_lecture_min").eq("statut", "publie").order("publie_le", { ascending: false }).limit(3),
+        supabase.from("partenaires").select("id,nom,description,logo_url").eq("actif", true).order("ordre_affichage").limit(4),
       ]);
       setStats({
         leads: leads.count ?? 0,
@@ -60,6 +66,9 @@ function DashboardPage() {
         partenaires: partenaires.count ?? 0,
         clics: clics.count ?? 0,
       });
+      setRecentLeads(recent.data ?? []);
+      setLatestArticles(art.data ?? []);
+      setTopPartenaires(parts.data ?? []);
     })();
   }, [user]);
 
