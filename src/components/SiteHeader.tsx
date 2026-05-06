@@ -21,6 +21,7 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
   const [scrolled, setScrolled] = useState(!transparentOnTop);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!transparentOnTop) {
