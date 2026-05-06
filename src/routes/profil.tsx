@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { User, Mail, Phone, Building2, Save, Check } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { User, Mail, Phone, Building2, Save, Check, LogOut, Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -15,21 +16,41 @@ export const Route = createFileRoute("/profil")({
 });
 
 function ProfilPage() {
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
   const [data, setData] = useState({
-    nom: "Dubois",
-    prenom: "Marie",
-    email: "marie@example.com",
-    telephone: "06 12 34 56 78",
-    societe: "Conseil RH SASU",
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    societe: "",
     statut: "SASU",
   });
+
+  useEffect(() => {
+    if (!loading && !user) navigate({ to: "/auth" });
+    if (user) setData((d) => ({ ...d, email: user.email ?? "" }));
+  }, [user, loading, navigate]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate({ to: "/" });
+  };
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin" style={{ color: "#2F6BFF" }} size={32} />
+      </div>
+    );
+  }
 
   return (
     <div>
