@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as PartenairesRouteImport } from './routes/partenaires'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ComparateurRouteImport } from './routes/comparateur'
 import { Route as CommentCaMarcheRouteImport } from './routes/comment-ca-marche'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -32,6 +33,11 @@ const PartenairesRoute = PartenairesRouteImport.update({
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComparateurRoute = ComparateurRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/comparateur': typeof ComparateurRoute
+  '/dashboard': typeof DashboardRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/partenaires': typeof PartenairesRoute
   '/profil': typeof ProfilRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/comparateur': typeof ComparateurRoute
+  '/dashboard': typeof DashboardRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/partenaires': typeof PartenairesRoute
   '/profil': typeof ProfilRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/comparateur': typeof ComparateurRoute
+  '/dashboard': typeof DashboardRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/partenaires': typeof PartenairesRoute
   '/profil': typeof ProfilRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/comment-ca-marche'
     | '/comparateur'
+    | '/dashboard'
     | '/mentions-legales'
     | '/partenaires'
     | '/profil'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/comment-ca-marche'
     | '/comparateur'
+    | '/dashboard'
     | '/mentions-legales'
     | '/partenaires'
     | '/profil'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/comment-ca-marche'
     | '/comparateur'
+    | '/dashboard'
     | '/mentions-legales'
     | '/partenaires'
     | '/profil'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   CommentCaMarcheRoute: typeof CommentCaMarcheRoute
   ComparateurRoute: typeof ComparateurRoute
+  DashboardRoute: typeof DashboardRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   PartenairesRoute: typeof PartenairesRoute
   ProfilRoute: typeof ProfilRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/mentions-legales'
       fullPath: '/mentions-legales'
       preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comparateur': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   CommentCaMarcheRoute: CommentCaMarcheRoute,
   ComparateurRoute: ComparateurRoute,
+  DashboardRoute: DashboardRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   PartenairesRoute: PartenairesRoute,
   ProfilRoute: ProfilRoute,

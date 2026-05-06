@@ -97,7 +97,7 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
             </a>
             {user ? (
               <Link
-                to="/profil"
+                to="/dashboard"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                 style={{ color: isLight ? "#fff" : "#0B2A4A" }}
               >
@@ -148,7 +148,7 @@ export function SiteHeader({ transparentOnTop = false }: Props) {
             ))}
             <div className="pt-3 border-t space-y-2" style={{ borderColor: "var(--color-hairline)" }}>
               <Link
-                to={user ? "/profil" : "/auth"}
+                to={user ? "/dashboard" : "/auth"}
                 className="block w-full text-center py-3 rounded-xl text-sm font-semibold border"
                 style={{ borderColor: "var(--color-hairline)", color: "#0B2A4A" }}
               >
