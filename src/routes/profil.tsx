@@ -96,10 +96,19 @@ function ProfilPage() {
                   </button>
                 ))}
               </nav>
-              <div className="mt-6 pt-6 border-t border-hairline">
+              <div className="mt-6 pt-6 border-t border-hairline space-y-2">
                 <Link to="/comparateur" className="block w-full text-center py-2.5 rounded-xl text-sm font-semibold text-white" style={{ backgroundColor: "#18C29C" }}>
                   Nouveau comparatif
                 </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold border transition-colors hover:bg-muted"
+                  style={{ borderColor: "var(--color-hairline)", color: "#0B2A4A" }}
+                >
+                  <LogOut size={14} />
+                  Déconnexion
+                </button>
               </div>
             </div>
           </aside>
